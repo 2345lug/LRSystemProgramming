@@ -4,9 +4,10 @@ int main()
 {
   int m_number = 0;
   printf("Input number M ");
-  //scanf("%d", m_number);
-  m_number = 45;
-  for (int i = 1; i < m_number; i++)
+  scanf("%d", m_number);
+  
+  printf("%d ", 2);
+  for (int i = 3; i < m_number; i+=2)
   {
     int current_number = 0;
     for (int j = 1; j <= i; j++)
