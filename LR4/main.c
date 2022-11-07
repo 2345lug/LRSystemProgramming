@@ -10,9 +10,9 @@ typedef struct list
 	struct list * next;	//указатель на следующий элемент
 }list;
 
-void Add(list** list, int i); // добавление нового элемента в список после i-го элемента;
-void PrintList(list* list); // вывод содержимого списка на экран;
-void Delete(list** list, int i); // удалить i-й элемент из списка.
+void add(list* list, int i); // добавление нового элемента в список после i-го элемента;
+void print_list(list *current_list); // вывод содержимого списка на экран;
+void delete(list* list, int i); // удалить i-й элемент из списка.
 void add_element(list *current_list, char* data);
 void print_list_elements(list *current_list);
 
@@ -34,7 +34,10 @@ int main()
     add_element(head, current_string);
   }
   
-  print_list_elements(head);
+  print_list(head);
+  delete(head, 2);
+  printf("After deletion: \r\n");
+  print_list(head);
  
 }
 
@@ -48,7 +51,7 @@ void add_element(list *current_list, char* data)
   temp -> next = previous_pointer; // созданный узел указывает на следующий элемент
 }
 
-void print_list_elements(list *current_list)
+void print_list(list *current_list)
 {
   struct list *current_element;
   current_element = current_list;
@@ -56,5 +59,24 @@ void print_list_elements(list *current_list)
     printf("%s ", current_element -> data); // вывод значения элемента p
     current_element = current_element-> next; // переход к следующему узлу
   } while (current_element != NULL);
+  printf ("\r\n");
 }
 
+void delete(list *current_list, int position)
+{
+  int current_position = 1;
+  struct list *previous_element;
+  struct list *next_element = current_list;
+    
+  do {
+    if (current_position == position && previous_element != NULL)
+    {      
+      previous_element -> next = next_element -> next;
+      free(next_element);
+      break;
+    }
+    current_position++;
+    previous_element = current_list;
+    next_element = current_list ->next;
+  } while (next_element != NULL);
+}
