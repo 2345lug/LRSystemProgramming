@@ -38,6 +38,9 @@ int main()
   delete(head, 2);
   printf("After deletion: \r\n");
   print_list(head);
+  printf("After insertion: \r\n");
+  add(head, 2);
+  print_list(head);
  
 }
 
@@ -73,6 +76,30 @@ void delete(list *current_list, int position)
     {      
       previous_element -> next = next_element -> next;
       free(next_element);
+      break;
+    }
+    current_position++;
+    previous_element = current_list;
+    next_element = current_list ->next;
+  } while (next_element != NULL);
+}
+
+void add(list *current_list, int position)
+{
+  int current_position = 1;
+  struct list *previous_element;
+  struct list *next_element = current_list;
+    
+  do {
+    if (current_position == position && previous_element != NULL)
+    {      
+      static char* new_element_data = "Insterted element ";
+      list *temp, *previous_pointer;
+      temp = (struct list*)malloc(sizeof(list));
+      previous_pointer = next_element -> next; // сохранение указателя на следующий узел
+      next_element -> next = temp; // предыдущий узел указывает на создаваемый
+      temp -> data = new_element_data; // сохранение поля данных добавляемого узла
+      temp -> next = previous_pointer; // созданный узел указывает на следующий элемент      
       break;
     }
     current_position++;
