@@ -7,8 +7,7 @@ int main()
 {
   int m_number = 0;
   printf("Input number M ");
-  //scanf("%d", m_number);
-  m_number = 47;
+  scanf("%d", m_number);
   int* value_array = (int*)malloc(m_number * sizeof(int));
 
   simple_seek(m_number, value_array);
