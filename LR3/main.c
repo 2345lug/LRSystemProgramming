@@ -1,24 +1,37 @@
 #include <stdio.h>
+#include <math.h>
 #include <malloc.h>
- 
-void simple_seek(int max_number, int* value_array_pointer);
+
+int* array_setup(long array_size);
+void array_clear(int* array_pointer);
+void average_dispersion_caclulate(int* array_pointer, int array_size);
 
 int main()
 {
-  int m_number = 0;
-  printf("Input number M ");
-  scanf("%d", m_number);
-  int* value_array = (int*)malloc(m_number * sizeof(int));
-
-  simple_seek(m_number, value_array);
+  int input_array_size = 0;
+  printf("Input array size: \r\n");
+  scanf("%d", &input_array_size);
+  
+  printf("Array size is: %d\r\n", input_array_size);
+  int* value_array = array_setup(input_array_size);  
+  average_dispersion_caclulate(value_array, input_array_size);
+  array_clear(value_array);
   
 }
 
 int* array_setup(long array_size)
 {
   int uiFlags = 0;
-  int* value_array = = (int *)GlobalAlloc(uiFlags, dwSize);
   int* value_array = (int*)malloc(array_size * sizeof(int));
+
+  for (int i = 0; i < array_size; i++)
+  {
+    int input_number = 0;
+    printf ("Input number %d \r\n", i + 1);
+    scanf("%d", &input_number);
+    *(value_array + i) = input_number;
+  }
+  
   return value_array;
 }
 
@@ -31,42 +44,19 @@ void average_dispersion_caclulate(int* array_pointer, int array_size)
 {
   int summ = 0;
   float average = 0;
+  float variance = 0;
+  float variance1 = 0;
+  float variance2 = 0;
   for (int i = 0; i < array_size; i++)
   {
     summ = summ + *(array_pointer + i);
+    variance2 += pow(*(array_pointer + i),2); 
+    variance1 += *(array_pointer + i);
   }
 
   average = (float)summ / (float)array_size;
-  
-}
+  variance = (variance2 - pow(variance1, 2) / array_size) / (array_size - 1);
 
-void simple_seek(int max_number, int* value_array_pointer)
-{
-  int simple_number_count = 0;
-  *(value_array_pointer) = 2; //2 is simple
-  simple_number_count++;
-  
-  for (int i = 3; i < max_number; i+=2)
-  {
-    int current_number = 0;
-
-    for (int j = 1; j <= i; j++)
-    {
-      if (i%j == 0)
-      {
-        current_number = current_number + j;
-      }
-    }
-    if (current_number - 1 == i)
-    {
-      *(value_array_pointer + simple_number_count) = i;
-      simple_number_count++;
-    }
-  }
-
-  for (int i = 0; i < simple_number_count; i++)
-  {
-    printf("%d ", *(value_array_pointer + i));
-  }
-  
+  printf("Average is %lf \r\n", average);
+  printf("Variance is %d \r\n", variance);  
 }
