@@ -22,8 +22,9 @@ int main()
 {
   int list_size = 6;
   list* head = NULL; //Указатель на первый элемент
+  list* new_head = NULL;
   list** work_list = &head;
-
+  
   //Инициализация первого элемента
   head = (list*)malloc(sizeof(list));
   head -> data = "Element 0";
@@ -44,7 +45,9 @@ int main()
   add(head, 2);
   print_list(head);
   write_list("list.txt", head);
- 
+  printf("Readed from file: \r\n");
+  new_head = read_list("list.txt"); 
+  print_list(new_head);
 }
 
 void write_list(char * fname, list * plst)
@@ -64,8 +67,29 @@ void write_list(char * fname, list * plst)
     next_item = next_item -> next;
   } while (next_item -> next != 0);
 
-  fclose(fp);
-  
+  fclose(fp);  
+}
+
+list* read_list(char * fname)
+{
+  FILE* fp;
+  list* new_head;
+  char* readed_string[MAX_STRING_SIZE];
+  char* result_string;
+  if ((fp = fopen(fname, "r")) == NULL)
+    {
+      puts("Открыть файл не удалось\n");
+      exit(1);
+    }
+
+  do
+  {
+    result_string = fgets(readed_string,MAX_STRING_SIZE, fp);
+    add_element(new_head, result_string);    
+  } while (result_string != NULL);
+
+  fclose(fp);  
+  return new_head;
 }
 
 void add_element(list *current_list, char* data)
